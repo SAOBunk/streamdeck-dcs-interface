@@ -40,7 +40,7 @@ void TitleMonitor::update_settings(const json &settings)
         if (is_integer(string_monitor_vertical_spacing_raw)) {
             string_monitor_vertical_spacing_ = std::stoi(string_monitor_vertical_spacing_raw);
         }
-        if (!string_monitor_passthrough_) {
+        if (!string_monitor_passthrough_ && !string_monitor_format_) {
             string_monitor_mapping_.clear();
             std::optional<std::pair<std::string, std::string>> maybe_token_pair;
             while (maybe_token_pair = pop_key_and_value(string_monitor_mapping_raw, ',', '=')) {
