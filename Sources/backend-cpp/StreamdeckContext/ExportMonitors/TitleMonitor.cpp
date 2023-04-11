@@ -71,7 +71,11 @@ std::string TitleMonitor::convertGameStateToTitle(const std::string &current_gam
     if (string_monitor_passthrough_) {
         title = current_game_value;
     } else if (string_monitor_format_) {
-        title = std::vformat(string_monitor_format_raw_, std::make_format_args(current_game_value));
+        try {
+            title = std::vformat(string_monitor_format_raw_, std::make_format_args(std::stof(current_game_value)));
+        } catch (...) {
+            title = "bad\nformat";
+        }
 	} else  {
         title = string_monitor_mapping_[current_game_value];
     }
