@@ -144,13 +144,21 @@
           onclick="callbackStringMonitorPassthroughCheck(checked)">
         <label for="string_monitor_passthrough_check"><span></span>Display string unaltered</label>
       </div>
-
+	  
       <div id="string_monitor_mapping_div" hidden>
+		<div type="checkbox" class="sdpi-item">
+          <div class="sdpi-item-label">Format String</div>
+          <input class="sdpi-item-value" id="string_monitor_formatting_check" type="checkbox" value="check" checked>
+          <label for="string_monitor_formatting_check"><span></span>Display string formatted</label>
+		</div>
+		
         <div type="textarea" class="sdpi-item" id="string_monitor_mapping_textarea">
           <div class="sdpi-item-label">Map Value to Display Text</div>
           <span class="sdpi-item-value textarea">
             <textarea type="textarea" id="string_monitor_mapping" placeholder="Enter as 'key=text,key=text' Example:
-            0.1=ValA,0.2=ValB,0.3=ValC"></textarea>
+            0.1=ValA,0.2=ValB,0.3=ValC
+			If Format String is enabled, enter a C++ std::format string formatting expression instead. Example:
+			Hello {}!, where {} would be replaced with the value received from DCS.)"></textarea>
           </span>
         </div>
       </div>

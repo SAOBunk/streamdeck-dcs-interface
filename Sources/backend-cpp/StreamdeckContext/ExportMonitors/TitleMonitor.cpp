@@ -1,5 +1,7 @@
 // Copyright 2021 Charles Tytler
 
+#include <format>
+
 #include "TitleMonitor.h"
 
 #include "Utilities/StringUtilities.h"
@@ -13,6 +15,8 @@ void TitleMonitor::update_settings(const json &settings)
     const std::string string_monitor_vertical_spacing_raw =
         EPLJSONUtils::GetStringByName(settings, "string_monitor_vertical_spacing");
     string_monitor_passthrough_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_passthrough_check", true);
+	string_monitor_format_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_formatting_check", false);
+    string_monitor_format_raw_ = EPLJSONUtils::GetStringByName(settings, "string_monitor_mapping");
     std::stringstream string_monitor_mapping_raw;
     string_monitor_mapping_raw << EPLJSONUtils::GetStringByName(settings, "string_monitor_mapping");
 
@@ -66,7 +70,9 @@ std::string TitleMonitor::convertGameStateToTitle(const std::string &current_gam
     std::string title;
     if (string_monitor_passthrough_) {
         title = current_game_value;
-    } else {
+    } else if (string_monitor_format_) {
+        title = std::vformat(string_monitor_format_raw_, std::make_format_args(current_game_value));
+	} else  {
         title = string_monitor_mapping_[current_game_value];
     }
     // Apply vertical spacing.

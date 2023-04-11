@@ -101,6 +101,9 @@ function addDefaultSettings(action, settings) {
     if (!settings.hasOwnProperty("string_monitor_passthrough_check")) {
         settings["string_monitor_passthrough_check"] = true;
     }
+	if (!settings.hasOwnProperty("string_monitor_formatting_check")) {
+        settings["string_monitor_formatting_check"] = false;
+    }
     if (settings["device_id"] && settings["button_id"]) {
         settings["send_address"] = settings["device_id"] + "," + settings["button_id"];
     }
