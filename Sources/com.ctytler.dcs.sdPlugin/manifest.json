@@ -128,7 +128,7 @@
   "Icon": "images/plugin_icon",
   "Category": "DCS Interface",
   "CategoryIcon": "images/category_icon",
-  "Version": "1.0.4",
+  "Version": "1.0.5",
   "OS": [
     {
       "Platform": "windows",

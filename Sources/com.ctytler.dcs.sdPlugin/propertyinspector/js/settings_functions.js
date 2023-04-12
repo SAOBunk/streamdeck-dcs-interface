@@ -99,7 +99,7 @@ function addDefaultSettings(action, settings) {
         settings["string_monitor_passthrough_check"] = true;
     }
 	if (!settings.hasOwnProperty("string_monitor_formatting_check")) {
-        settings["string_monitor_formatting_check"] = true;
+        settings["string_monitor_formatting_check"] = false;
     }
 	if (!settings.hasOwnProperty("string_monitor_formatting_multiplier")) {
         settings["string_monitor_formatting_multiplier"] = "1";
