@@ -98,6 +98,15 @@ function addDefaultSettings(action, settings) {
     if (!settings.hasOwnProperty("string_monitor_passthrough_check")) {
         settings["string_monitor_passthrough_check"] = true;
     }
+	if (!settings.hasOwnProperty("string_monitor_formatting_check")) {
+        settings["string_monitor_formatting_check"] = true;
+    }
+	if (!settings.hasOwnProperty("string_monitor_formatting_multiplier")) {
+        settings["string_monitor_formatting_multiplier"] = "1";
+    }
+	if (!settings.hasOwnProperty("string_monitor_formatting_offset")) {
+        settings["string_monitor_formatting_offset"] = "0";
+    }
 
     return settings;
 }
@@ -131,7 +140,17 @@ function callbackStringMonitorPassthroughCheck(isChecked) {
     else {
         document.getElementById("string_monitor_mapping_div").hidden = false;
     }
-    console.log("String Monitor Passtrhough Callback isChecked: ", isChecked);
+    console.log("String Monitor Passthrough Callback isChecked: ", isChecked);
+}
+
+function callbackStringMonitorFormattingCheck(isChecked) {
+    if (isChecked) {
+        document.getElementById("string_monitor_formatting_div").hidden = false;
+    }
+    else {
+        document.getElementById("string_monitor_formatting_div").hidden = true;
+    }
+    console.log("String Monitor Formatting Callback isChecked: ", isChecked);
 }
 
 

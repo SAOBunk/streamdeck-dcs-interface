@@ -17,8 +17,8 @@ Sources\Windows\x64\Release\Test.exe
 if %errorlevel% neq 0 echo "Canceling plugin build due to failed unit tests" && pause && exit /b %errorlevel%
 
 :: Copy C++ executable to StreamDeck Plugin package:
-echo. && echo *** C++ binary compilation complete, published to Sources/com.ctytler.dcs.sdPlugin/bin/ *** && echo.
-copy Sources\Windows\x64\Release\streamdeck_dcs_interface.exe Sources\com.ctytler.dcs.sdPlugin\bin\
+echo. && echo *** C++ binary compilation complete, published to Sources/com.ctytler.dcs.sdPlugin/ *** && echo.
+copy Sources\Windows\x64\Release\dcs_interface.exe Sources\com.ctytler.dcs.sdPlugin\
 
 :: Remove any prior build of the Plugin:
 echo. && echo *** Removing any previous builds of com.ctytler.dcs.streamDeckPlugin from Release/ ***

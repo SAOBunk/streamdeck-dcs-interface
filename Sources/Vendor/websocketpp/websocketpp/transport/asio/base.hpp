@@ -36,6 +36,8 @@
 
 #include <string>
 
+#pragma warning(disable : 4996)
+
 namespace websocketpp {
 namespace transport {
 /// Transport policy that uses asio

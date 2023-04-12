@@ -46,7 +46,7 @@
     #include <boost/aligned_storage.hpp>
 #endif
 
-
+#pragma warning(disable : 4996)
 
 namespace websocketpp {
 namespace lib {

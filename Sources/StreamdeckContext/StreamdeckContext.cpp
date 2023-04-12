@@ -1,5 +1,7 @@
 // Copyright 2020 Charles Tytler
 
+#include <format>
+
 #include "pch.h"
 
 #include "StreamdeckContext.h"
@@ -75,7 +77,13 @@ void StreamdeckContext::updateContextSettings(const json &settings) {
     // Set boolean from checkbox using default false value if it doesn't exist in "settings".
     const std::string string_monitor_vertical_spacing_raw =
         EPLJSONUtils::GetStringByName(settings, "string_monitor_vertical_spacing");
+    const std::string string_monitor_format_multiplier_raw = 
+        EPLJSONUtils::GetStringByName(settings, "string_monitor_formatting_multiplier");
+    const std::string string_monitor_format_offset_raw =
+        EPLJSONUtils::GetStringByName(settings, "string_monitor_formatting_offset");
     string_monitor_passthrough_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_passthrough_check", true);
+    string_monitor_format_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_formatting_check", false);
+    string_monitor_format_raw_ = EPLJSONUtils::GetStringByName(settings, "string_monitor_mapping");
     std::stringstream string_monitor_mapping_raw;
     string_monitor_mapping_raw << EPLJSONUtils::GetStringByName(settings, "string_monitor_mapping");
 
@@ -109,11 +117,19 @@ void StreamdeckContext::updateContextSettings(const json &settings) {
         if (is_integer(string_monitor_vertical_spacing_raw)) {
             string_monitor_vertical_spacing_ = std::stoi(string_monitor_vertical_spacing_raw);
         }
-        if (!string_monitor_passthrough_) {
+        if (!string_monitor_passthrough_ && !string_monitor_format_) {
             string_monitor_mapping_.clear();
             std::pair<std::string, std::string> key_and_value;
             while (pop_key_and_value(string_monitor_mapping_raw, ',', '=', key_and_value)) {
                 string_monitor_mapping_[key_and_value.first] = key_and_value.second;
+            }
+        }
+        if (string_monitor_format_) {
+            if (is_number(string_monitor_format_multiplier_raw)) {
+                string_monitor_format_multiplier_ = std::stof(string_monitor_format_multiplier_raw);
+            }
+            if (is_number(string_monitor_format_offset_raw)) {
+                string_monitor_format_offset_ = std::stof(string_monitor_format_offset_raw);
             }
         }
     }
@@ -169,7 +185,21 @@ std::string StreamdeckContext::determineTitleForStringMonitor(const std::string 
     std::string title;
     if (string_monitor_passthrough_) {
         title = current_game_string_value;
-    } else {
+    }
+    else if (string_monitor_format_) {
+        try {
+            if (is_number(current_game_string_value)) {
+                title = std::vformat(string_monitor_format_raw_, std::make_format_args(std::stof(current_game_string_value) * string_monitor_format_multiplier_ + string_monitor_format_offset_));
+            }
+            else {
+                title = std::vformat(string_monitor_format_raw_, std::make_format_args(current_game_string_value));
+            }            
+        }
+        catch (...) {
+            title = "bad\nformat";
+        }
+    }
+    else {
         title = string_monitor_mapping_[current_game_string_value];
     }
     // Apply vertical spacing.
