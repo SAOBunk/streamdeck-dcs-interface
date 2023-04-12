@@ -25,8 +25,8 @@ echo. && echo *** Removing any previous builds of com.ctytler.dcs.streamDeckPlug
 del Release\com.ctytler.dcs.streamDeckPlugin && echo ...Successfully removed
 
 :: Build the ReactJS user interface:
-cd Sources\frontend-react-js && call npm run build && cd ..\..
-echo *** React JS build complete, published to Sources/com.ctytler.dcs.sdPlugin/settingsUI/ *** && echo.
+::cd Sources\frontend-react-js && call npm run build && cd ..\..
+::echo *** React JS build complete, published to Sources/com.ctytler.dcs.sdPlugin/settingsUI/ *** && echo.
 
 :: Build StreamDeck Plugin:
 echo *** Building com.ctytler.dcs.streamDeckPlugin to Release/ *** && echo.
