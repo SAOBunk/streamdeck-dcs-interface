@@ -80,6 +80,7 @@ $SD.on('connected', (jsn) => {
         updateUI(settings);
         callbackDisableRelease(settings["disable_release_check"]);
         callbackStringMonitorPassthroughCheck(settings["string_monitor_passthrough_check"]);
+		callbackStringMonitorFormattingCheck(settings["string_monitor_formatting_check"]);
         console.log("Loaded settings: ", settings);
     }
 });

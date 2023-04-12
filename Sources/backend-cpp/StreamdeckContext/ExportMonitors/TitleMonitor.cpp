@@ -14,6 +14,10 @@ void TitleMonitor::update_settings(const json &settings)
     // Set boolean from checkbox using default false value if it doesn't exist in "settings".
     const std::string string_monitor_vertical_spacing_raw =
         EPLJSONUtils::GetStringByName(settings, "string_monitor_vertical_spacing");
+    const std::string string_monitor_format_multiplier_raw =
+        EPLJSONUtils::GetStringByName(settings, "string_monitor_formatting_multiplier");
+    const std::string string_monitor_format_offset_raw =
+        EPLJSONUtils::GetStringByName(settings, "string_monitor_formatting_offset");
     string_monitor_passthrough_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_passthrough_check", true);
 	string_monitor_format_ = EPLJSONUtils::GetBoolByName(settings, "string_monitor_formatting_check", false);
     string_monitor_format_raw_ = EPLJSONUtils::GetStringByName(settings, "string_monitor_mapping");
@@ -47,6 +51,14 @@ void TitleMonitor::update_settings(const json &settings)
                 string_monitor_mapping_[maybe_token_pair.value().first] = maybe_token_pair.value().second;
             }
         }
+        if (string_monitor_format_) {
+            if (is_number(string_monitor_format_multiplier_raw)) {
+                string_monitor_format_multiplier_ = std::stof(string_monitor_format_multiplier_raw);
+            }
+            if (is_number(string_monitor_format_offset_raw)) {
+                string_monitor_format_offset_ = std::stof(string_monitor_format_offset_raw);
+            }
+        }
     }
 }
 
@@ -72,7 +84,11 @@ std::string TitleMonitor::convertGameStateToTitle(const std::string &current_gam
         title = current_game_value;
     } else if (string_monitor_format_) {
         try {
-            title = std::vformat(string_monitor_format_raw_, std::make_format_args(std::stof(current_game_value)));
+            if (is_number(current_game_value)) {
+                title = std::vformat(string_monitor_format_raw_,std::make_format_args(std::stof(current_game_value) * string_monitor_format_multiplier_ + string_monitor_format_offset_));
+            } else {
+                title = std::vformat(string_monitor_format_raw_, std::make_format_args(current_game_value));
+            }
         } catch (...) {
             title = "bad\nformat";
         }

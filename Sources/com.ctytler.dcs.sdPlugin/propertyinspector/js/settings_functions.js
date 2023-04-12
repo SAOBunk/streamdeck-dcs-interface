@@ -104,6 +104,12 @@ function addDefaultSettings(action, settings) {
 	if (!settings.hasOwnProperty("string_monitor_formatting_check")) {
         settings["string_monitor_formatting_check"] = false;
     }
+	if (!settings.hasOwnProperty("string_monitor_formatting_multiplier")) {
+        settings["string_monitor_formatting_multiplier"] = "1";
+    }
+	if (!settings.hasOwnProperty("string_monitor_formatting_offset")) {
+        settings["string_monitor_formatting_offset"] = "0";
+    }
     if (settings["device_id"] && settings["button_id"]) {
         settings["send_address"] = settings["device_id"] + "," + settings["button_id"];
     }
@@ -143,7 +149,15 @@ function callbackStringMonitorPassthroughCheck(isChecked) {
     console.log("String Monitor Passtrhough Callback isChecked: ", isChecked);
 }
 
-
+function callbackStringMonitorFormattingCheck(isChecked) {
+    if (isChecked) {
+        document.getElementById("string_monitor_formatting_div").hidden = false;
+    }
+    else {
+        document.getElementById("string_monitor_formatting_div").hidden = true;
+    }
+    console.log("String Monitor Formatting Callback isChecked: ", isChecked);
+}
 
 /** Functions to clear settings values **/
 
